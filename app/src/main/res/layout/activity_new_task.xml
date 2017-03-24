@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ra57_2014.pnrs1.rtrk.taskmanager.NewTaskActivity"
+    tools:context="ra57_2014.pnrs1.rtrk.taskmanager.newtask.NewTaskActivity"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
 
@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Task Name" />
+            android:hint="Task Name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/taskTime"
