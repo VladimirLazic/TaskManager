@@ -37,17 +37,19 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             }
         });
 
-        red.setOnClickListener(new View.OnClickListener() {
+        yellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 priorityButton = 2;
+                add.setEnabled(true);
             }
         });
 
-        red.setOnClickListener(new View.OnClickListener() {
+        green.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 priorityButton = 1;
+                add.setEnabled(true);
             }
         });
 
@@ -55,7 +57,6 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             @Override
             public void onClick(View v) {
                 if(taskName.getText().toString() != null && taskTime.getText().toString() != null && priorityButton != 0) {
-                    add.setEnabled(true);
                     presenter.addTask(taskName.getText().toString(),
                                       taskDescription.getText().toString(),
                                       reminder.isChecked(),
