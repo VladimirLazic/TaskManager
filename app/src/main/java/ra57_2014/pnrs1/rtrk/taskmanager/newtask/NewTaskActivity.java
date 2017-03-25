@@ -22,7 +22,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
     Button red, green, yellow, add , cancel;
     NewTaskPresenter presenter;
     int priorityButton = 0;
-    ArrayList<Task> listOfTasks;
+    //ArrayList<Task> listOfTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,9 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             @Override
             public void onClick(View v) {
                 priorityButton = 3;
+                if(taskTime.getText() != null && taskName.getText() != null) {
+                    add.setEnabled(true);
+                }
             }
         });
 
@@ -41,7 +44,9 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             @Override
             public void onClick(View v) {
                 priorityButton = 2;
-                add.setEnabled(true);
+                if(taskTime.getText() != null && taskName.getText() != null) {
+                    add.setEnabled(true);
+                }
             }
         });
 
@@ -49,21 +54,42 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             @Override
             public void onClick(View v) {
                 priorityButton = 1;
-                add.setEnabled(true);
+                if(taskTime.getText() != null && taskName.getText() != null) {
+                    add.setEnabled(true);
+                }
+            }
+        });
+
+        taskName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(taskTime.getText() != null && priorityButton != 0) {
+                    add.setEnabled(true);
+                }
+            }
+        });
+
+        taskTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(taskName.getText() != null && priorityButton != 0) {
+                    add.setEnabled(true);
+                }
             }
         });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(taskName.getText().toString() != null && taskTime.getText().toString() != null && priorityButton != 0) {
+                if(taskName.getText() != null && taskTime.getText() != null && priorityButton != 0) {
                     presenter.addTask(taskName.getText().toString(),
-                                      taskDescription.getText().toString(),
-                                      reminder.isChecked(),
-                                      priorityButton);
+                            taskDescription.getText().toString(),
+                            reminder.isChecked(),
+                            priorityButton);
                 } else {
                     insuficientData();
                 }
+
             }
         });
 
@@ -72,6 +98,12 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             public void onClick(View v) {
                 add.setEnabled(false);
                 priorityButton = 0;
+
+                taskName.getText().clear();
+                taskDescription.getText().clear();
+                taskTime.getText().clear();
+                //reminder.setChecked(false);
+
             }
         });
 
@@ -91,17 +123,17 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         add = (Button) findViewById(R.id.add);
         cancel = (Button) findViewById(R.id.cancel);
 
-        add.setEnabled(false);
+        //add.setEnabled(false);
     }
 
     @Override
     public void insuficientData() {
-        Toast.makeText(this , "Not enough data" , Toast.LENGTH_LONG).show();
+        Toast.makeText(this , "Not enough data" , Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void updateList(Task t) {
-        listOfTasks.add(t);
+        //listOfTasks.add(t);
         Toast.makeText(this , "List updated!" , Toast.LENGTH_LONG).show();
     }
 }
