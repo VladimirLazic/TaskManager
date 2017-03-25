@@ -1,6 +1,7 @@
 package ra57_2014.pnrs1.rtrk.taskmanager.newtask;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ra57_2014.pnrs1.rtrk.taskmanager.MainActivity;
 import ra57_2014.pnrs1.rtrk.taskmanager.R;
 
 
@@ -22,7 +24,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
     Button red, green, yellow, add , cancel;
     NewTaskPresenter presenter;
     int priorityButton = 0;
-    //ArrayList<Task> listOfTasks;
+    ArrayList<Task> listOfTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         setContentView(R.layout.activity_new_task);
 
         presenter = new NewTaskPresenter(this);
+        listOfTasks = new ArrayList<Task>();
         initView();
 
         red.setOnClickListener(new View.OnClickListener() {
@@ -77,11 +80,17 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
                 taskName.getText().clear();
                 taskDescription.getText().clear();
                 taskTime.getText().clear();
-
+                reminder.setChecked(false);
             }
         });
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(NewTaskActivity.this , MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void initView() {
