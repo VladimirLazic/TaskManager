@@ -7,7 +7,7 @@ package ra57_2014.pnrs1.rtrk.taskmanager.newtask;
 public class NewTaskModel {
 
     interface View {
-        void insuficientData();
+        void showMessage(String message);
         void updateList(Task t);
     }
 
