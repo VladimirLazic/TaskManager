@@ -30,15 +30,21 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
+<<<<<<< HEAD
 
         presenter = new NewTaskPresenter(this);
         listOfTasks = new ArrayList<Task>();
+=======
+>>>>>>> origin/master
         initView();
 
         red.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 priorityButton = 3;
+                if(taskTime.getText() != null && taskName.getText() != null) {
+                    add.setEnabled(true);
+                }
             }
         });
 
@@ -46,6 +52,9 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             @Override
             public void onClick(View v) {
                 priorityButton = 2;
+                if(taskTime.getText() != null && taskName.getText() != null) {
+                    add.setEnabled(true);
+                }
             }
         });
 
@@ -53,9 +62,29 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             @Override
             public void onClick(View v) {
                 priorityButton = 1;
+                if(taskTime.getText() != null && taskName.getText() != null) {
+                    add.setEnabled(true);
+                }
             }
         });
 
+        taskName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(taskTime.getText() != null && priorityButton != 0) {
+                    add.setEnabled(true);
+                }
+            }
+        });
+
+        taskTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(taskName.getText() != null && priorityButton != 0) {
+                    add.setEnabled(true);
+                }
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +95,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
                             reminder.isChecked(),
                             priorityButton);
                 } else {
-                    showMessage("Not enough data!");
+                    insuficientData();
                 }
 
             }
@@ -75,12 +104,14 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                add.setEnabled(false);
                 priorityButton = 0;
 
                 taskName.getText().clear();
                 taskDescription.getText().clear();
                 taskTime.getText().clear();
-                reminder.setChecked(false);
+<<<<<<< HEAD
+                reminder.setChecked(false)
             }
         });
     }
@@ -105,11 +136,13 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         green = (Button) findViewById(R.id.green);
         add = (Button) findViewById(R.id.add);
         cancel = (Button) findViewById(R.id.cancel);
+
+        //add.setEnabled(false);
     }
 
     @Override
-    public void showMessage(String message) {
-        Toast.makeText(this , message , Toast.LENGTH_LONG).show();
+    public void insuficientData() {
+        Toast.makeText(this , "Not enough data" , Toast.LENGTH_SHORT).show();
     }
 
     @Override

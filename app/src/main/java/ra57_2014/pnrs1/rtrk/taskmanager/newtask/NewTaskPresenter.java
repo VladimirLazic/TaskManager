@@ -11,10 +11,6 @@ public class NewTaskPresenter implements NewTaskModel.Presenter{
 
     NewTaskModel.View view;
 
-    public NewTaskPresenter(NewTaskModel.View view) {
-        this.view = view;
-    }
-
     @Override
     public void addTask(String name, String description , boolean reminder , int priority) {
         if(name != null && priority != 0) {
