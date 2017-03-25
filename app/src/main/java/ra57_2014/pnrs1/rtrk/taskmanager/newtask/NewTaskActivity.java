@@ -147,7 +147,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
 
     @Override
     public void updateList(Task t) {
-        listOfTasks.add(t);
+        //listOfTasks.add(t);
         Toast.makeText(this , "List updated!" , Toast.LENGTH_LONG).show();
     }
 }
