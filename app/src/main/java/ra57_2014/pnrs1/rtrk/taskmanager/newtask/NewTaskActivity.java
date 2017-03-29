@@ -80,12 +80,14 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         taskName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                add.setEnabled(true);
+                if(!taskTime.getText().toString().isEmpty() && priorityButton != 0)
+                    add.setEnabled(true);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                add.setEnabled(true);
+                if(!taskTime.getText().toString().isEmpty() && priorityButton != 0)
+                    add.setEnabled(true);
             }
 
             @Override
@@ -97,10 +99,17 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         taskTime.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Calendar currentTime = Calendar.getInstance();
+                int hour , minute;
 
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
+                if(taskTime.getText().toString().isEmpty()) {
+                    hour = currentTime.get(Calendar.HOUR_OF_DAY);
+                    minute = currentTime.get(Calendar.MINUTE);
+                } else {
+                    String time[] = taskTime.getText().toString().split(":");
+                    hour = Integer.parseInt(time[0]);
+                    minute = Integer.parseInt(time[1]);
+                }
 
                 TimePickerDialog time = new TimePickerDialog(NewTaskActivity.this , new TimePickerDialog.OnTimeSetListener() {
                     @Override
