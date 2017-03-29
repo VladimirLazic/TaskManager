@@ -1,16 +1,22 @@
 package ra57_2014.pnrs1.rtrk.taskmanager.newtask;
 
+import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ra57_2014.pnrs1.rtrk.taskmanager.MainActivity;
 import ra57_2014.pnrs1.rtrk.taskmanager.R;
@@ -71,19 +77,41 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             }
         });
 
-        taskName.setOnClickListener(new View.OnClickListener() {
+        taskName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                if(!taskTime.getText().toString().isEmpty() && priorityButton != 0)
-                    add.setEnabled(true);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                add.setEnabled(true);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                add.setEnabled(true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
-        taskTime.setOnClickListener(new View.OnClickListener() {
+        taskTime.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                if(!taskName.getText().toString().isEmpty() && priorityButton != 0)
-                    add.setEnabled(true);
+            public boolean onTouch(View v, MotionEvent event) {
+
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog time = new TimePickerDialog(NewTaskActivity.this , new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        taskTime.setText(hourOfDay + ":" + minute);
+                    }
+                }, hour , minute , true);
+                time.setTitle("Select the time");
+                time.show();
+
+                return false;
             }
         });
 
@@ -115,6 +143,8 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
                 green.setEnabled(true);
             }
         });
+
+
     }
 
     @Override
@@ -139,7 +169,6 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         cancel = (Button) findViewById(R.id.cancel);
 
         add.setEnabled(false);
-
     }
 
     @Override
@@ -151,5 +180,9 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
     public void updateList(Task t) {
         listOfTasks.add(t);
         Toast.makeText(this , "List updated!" , Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(NewTaskActivity.this , MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
