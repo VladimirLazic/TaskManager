@@ -1,5 +1,6 @@
 package ra57_2014.pnrs1.rtrk.taskmanager.newtask;
 
+import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -96,31 +98,66 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             }
         });
 
-        taskTime.setOnTouchListener(new View.OnTouchListener() {
+        taskTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 Calendar currentTime = Calendar.getInstance();
-                int hour , minute;
+                final int year , month , day , hour , minute;
+
+                day = currentTime.get(Calendar.DAY_OF_MONTH);
+                month = currentTime.get(Calendar.MONTH);
+                year = currentTime.get(Calendar.YEAR);
+                hour = currentTime.get(Calendar.HOUR_OF_DAY);
+                minute = currentTime.get(Calendar.MINUTE);
+
+                if(taskTime.getText().toString().isEmpty())
+                    showMessage("Press for date");
 
                 if(taskTime.getText().toString().isEmpty()) {
-                    hour = currentTime.get(Calendar.HOUR_OF_DAY);
-                    minute = currentTime.get(Calendar.MINUTE);
-                } else {
-                    String time[] = taskTime.getText().toString().split(":");
-                    hour = Integer.parseInt(time[0]);
-                    minute = Integer.parseInt(time[1]);
+                    DatePickerDialog date = new DatePickerDialog(NewTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            taskTime.setText(month + "/" + day + "/" + year);
+                        }
+                    }, year, month, day);
+                    date.setTitle("Select the date");
+                    date.show();
                 }
 
-                TimePickerDialog time = new TimePickerDialog(NewTaskActivity.this , new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        taskTime.setText(hourOfDay + ":" + minute);
-                    }
-                }, hour , minute , true);
-                time.setTitle("Select the time");
-                time.show();
+                if(taskTime.getText().toString().indexOf("/") != -1) {
+                    TimePickerDialog time = new TimePickerDialog(NewTaskActivity.this , new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            taskTime.setText(taskTime.getText().toString() + (" " + hourOfDay + ":" + minute));
+                        }
+                    }, hour , minute , true);
+                    time.setTitle("Select the time");
+                    time.show();
+                }
 
-                return false;
+            }
+        });
+
+        taskTime.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(taskTime.getText().toString().indexOf(" ") == -1)
+                    showMessage("Press for time");
+                if(!taskTime.getText().toString().isEmpty() && !taskName.getText().toString().isEmpty() && priorityButton != 0)
+                    add.setEnabled(true);
+                else
+                    add.setEnabled(false);
             }
         });
 
