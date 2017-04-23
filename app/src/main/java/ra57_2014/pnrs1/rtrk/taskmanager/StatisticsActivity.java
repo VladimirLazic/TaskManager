@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import ra57_2014.pnrs1.rtrk.taskmanager.newtask.NewTaskActivity;
+import ra57_2014.pnrs1.rtrk.taskmanager.main.MainActivity;
 
 public class StatisticsActivity extends AppCompatActivity {
 

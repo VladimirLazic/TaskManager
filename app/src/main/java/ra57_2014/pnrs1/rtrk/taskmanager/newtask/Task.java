@@ -16,6 +16,38 @@ public class Task {
         this.priority = priority;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isReminder() {
+        return reminder;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setReminder(boolean reminder) {
+        this.reminder = reminder;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
     @Override
     public String toString() {
         return "Task{" +

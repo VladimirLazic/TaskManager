@@ -1,4 +1,4 @@
-package ra57_2014.pnrs1.rtrk.taskmanager;
+package ra57_2014.pnrs1.rtrk.taskmanager.main;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import ra57_2014.pnrs1.rtrk.taskmanager.R;
+import ra57_2014.pnrs1.rtrk.taskmanager.StatisticsActivity;
 import ra57_2014.pnrs1.rtrk.taskmanager.newtask.NewTaskActivity;
 
 public class MainActivity extends AppCompatActivity {
