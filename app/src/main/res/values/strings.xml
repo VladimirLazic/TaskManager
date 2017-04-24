@@ -4,9 +4,17 @@
     <string name="cancel">Otkazi</string>
     <string name="newTask">Novi Zadatak</string>
     <string name="statistics">Statistika</string>
+
+
     <string name="red">Red</string>
     <string name="green">Green</string>
     <string name="tellow">Yellow</string>
 
+
+    <string name="save">Sacuvaj</string>
+    <string name="delete">Obrisi</string>
+
+    <string name="today">Danas</string>
+    <string name="tommorow">Sutra</string>
 
 </resources>

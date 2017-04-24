@@ -39,6 +39,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
 
         presenter = new NewTaskPresenter(this);
         listOfTasks = new ArrayList<Task>();
+
         initView();
 
         red.setOnClickListener(new View.OnClickListener() {
@@ -108,14 +109,11 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
                 hour = currentTime.get(Calendar.HOUR_OF_DAY);
                 minute = currentTime.get(Calendar.MINUTE);
 
-                if(taskTime.getText().toString().isEmpty())
-                    showMessage("Press for date");
-
                 if(taskTime.getText().toString().isEmpty()) {
                     DatePickerDialog date = new DatePickerDialog(NewTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            taskTime.setText(month + "/" + day + "/" + year);
+                            taskTime.setText(dayOfMonth + "/" + month + "/" + year);
                         }
                     }, year, month, day);
                     date.setTitle("Select the date");
@@ -150,8 +148,6 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(taskTime.getText().toString().indexOf(" ") == -1)
-                    showMessage("Press for time");
                 if(!taskTime.getText().toString().isEmpty() && !taskName.getText().toString().isEmpty() && priorityButton != 0)
                     add.setEnabled(true);
                 else
@@ -163,10 +159,15 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.addTask(taskName.getText().toString(),
-                        taskDescription.getText().toString(),
-                        reminder.isChecked(),
-                        priorityButton);
+                if(add.getText().equals(getResources().getString(R.string.add))) {
+                    presenter.addTask(taskName.getText().toString(),
+                            taskDescription.getText().toString(),
+                            taskTime.getText().toString(),
+                            reminder.isChecked(),
+                            priorityButton);
+                } else {
+                    goToMain();
+                }
             }
         });
 
@@ -196,7 +197,6 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         super.onBackPressed();
         Intent intent = new Intent(NewTaskActivity.this , MainActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void initView() {
@@ -212,7 +212,46 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         add = (Button) findViewById(R.id.add);
         cancel = (Button) findViewById(R.id.cancel);
 
-        add.setEnabled(false);
+        Bundle extras = getIntent().getExtras();
+
+        cancel.setText(extras.getString("Right"));
+        add.setText(extras.getString("Left"));
+
+        if(add.getText().equals(getResources().getString((R.string.add)))) {
+            add.setEnabled(false);
+        }
+
+        if(extras.get("Task") != null) {
+            Task t = ((Task) extras.get("Task"));
+            taskName.setText(t.getName());
+            taskTime.setText(t.getTime());
+            taskDescription.setText(t.getDescription());
+
+            if(t.isReminder()) {
+                reminder.setChecked(true);
+            } else {
+                reminder.setChecked(false);
+            }
+
+            switch (t.getPriority()) {
+                case 1:
+                    green.setEnabled(true);
+                    red.setEnabled(false);
+                    yellow.setEnabled(false);
+                    break;
+                case 2:
+                    green.setEnabled(false);
+                    red.setEnabled(false);
+                    yellow.setEnabled(true);
+                    break;
+                case 3:
+                    green.setEnabled(false);
+                    red.setEnabled(true);
+                    yellow.setEnabled(false);
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -226,7 +265,15 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         Toast.makeText(this , "List updated!" , Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(NewTaskActivity.this , MainActivity.class);
+        intent.putExtra("Task" , t);
         startActivity(intent);
-        finish();
+        //finish();
+    }
+
+    @Override
+    public void goToMain() {
+        Intent intent = new Intent(NewTaskActivity.this , MainActivity.class);
+        startActivity(intent);
+        //finish();
     }
 }

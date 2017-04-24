@@ -19,6 +19,5 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(StatisticsActivity.this , MainActivity.class);
         startActivity(intent);
-        finish();
     }
 }

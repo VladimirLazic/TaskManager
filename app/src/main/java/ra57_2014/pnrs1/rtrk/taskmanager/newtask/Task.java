@@ -1,19 +1,31 @@
 package ra57_2014.pnrs1.rtrk.taskmanager.newtask;
 
+import java.io.Serializable;
+
 /**
  * Created by ironm on 3/24/2017.
  */
 
-public class Task {
-    String name , description;
+public class Task implements Serializable {
+    String name , description , time;
     boolean reminder;               //true - remind me , false - dont
     int priority;                   //3 - red , 2 - yellow , 1 - green
 
-    public Task(String name , String description , boolean reminder , int priority) {
+    public Task(String name , String description , String time ,boolean reminder , int priority) {
         this.name = name;
         this.description = description;
+        this.time = time;
         this.reminder = reminder;
         this.priority = priority;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getTime() {
+
+        return time;
     }
 
     public String getName() {
@@ -50,11 +62,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", reminder=" + reminder +
-                ", priority=" + priority +
-                '}';
+        return name + " " + time + " " + (description.isEmpty() ? "" : description) + " " + (reminder ? "Remindrr on" : "Reminder off") + " " + priority;
     }
 }

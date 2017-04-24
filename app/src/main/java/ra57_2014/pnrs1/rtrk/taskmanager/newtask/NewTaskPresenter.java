@@ -16,12 +16,10 @@ public class NewTaskPresenter implements NewTaskModel.Presenter{
     }
 
     @Override
-    public void addTask(String name, String description , boolean reminder , int priority) {
+    public void addTask(String name, String description , String time , boolean reminder , int priority) {
         if(name != null && priority != 0) {
-            Task t = new Task(name, description, reminder, priority);
+            Task t = new Task(name, description, time, reminder, priority);
             view.updateList(t);
-        } else {
-            view.showMessage("Something went wrond :(");
         }
     }
 }

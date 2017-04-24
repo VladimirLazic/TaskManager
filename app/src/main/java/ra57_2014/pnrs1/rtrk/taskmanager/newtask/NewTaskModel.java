@@ -9,9 +9,10 @@ public class NewTaskModel {
     interface View {
         void showMessage(String message);
         void updateList(Task t);
+        void goToMain();
     }
 
     interface Presenter {
-        void addTask(String name, String description , boolean reminder , int priority);
+        void addTask(String name, String description , String time ,boolean reminder , int priority);
     }
 }
