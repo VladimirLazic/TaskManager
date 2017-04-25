@@ -72,7 +72,6 @@ public class TaskElementAdapter extends ArrayAdapter<Task> {
         });
 
         RadioButton time = (RadioButton) elementView.findViewById(R.id.radioButton);
-        //time.setEnabled(false);
 
         Date currentDate = new Date();
         String datePattern = "dd/MM/yyyy";
@@ -92,16 +91,16 @@ public class TaskElementAdapter extends ArrayAdapter<Task> {
             if(currentDate.getMonth() == selectedDate.getMonth()) {
                 if(currentDate.getDay() == selectedDate.getDay()) {
                     time.setText(R.string.today);
-                } else if((currentDate.getTime()+1*24*60*60*1000)>selectedDate.getTime()) {
+                } else if((currentDate.getTime()+1*24*60*60*1000) > selectedDate.getTime()) {
                     time.setText(R.string.tommorow);
-                } else if((currentDate.getTime()+7*24*60*60*1000)<selectedDate.getTime()) {
+                } else if((currentDate.getTime()+7*24*60*60*1000) > selectedDate.getTime()) {
                     String weekDay;
-                    Locale RS= new Locale.Builder().setLanguage("sr").setScript("Latn").setRegion("RS").build();
-                    SimpleDateFormat dayFormat = new SimpleDateFormat("EEEEEEE", RS);
+                    Locale RS = new Locale.Builder().setLanguage("sr").setScript("Latn").setRegion("RS").build();
+                    SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", RS);
 
                     Calendar calendar = Calendar.getInstance();
-                    weekDay = dayFormat.format(calendar.getTime());
-                    taskEnd.setText(weekDay);
+                    weekDay = dayFormat.format(selectedDate.getTime());
+                    time.setText(weekDay);
                 } else {
                     time.setText(simpleDateFormat.format(selectedDate));
                 }

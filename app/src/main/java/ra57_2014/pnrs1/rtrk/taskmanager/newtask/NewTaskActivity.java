@@ -101,10 +101,10 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
             @Override
             public void onClick(View v) {
                 Calendar currentTime = Calendar.getInstance();
-                final int year , month , day , hour , minute;
+                final int year , mMonth , day , hour , minute;
 
                 day = currentTime.get(Calendar.DAY_OF_MONTH);
-                month = currentTime.get(Calendar.MONTH);
+                mMonth = currentTime.get(Calendar.MONTH) + 1;
                 year = currentTime.get(Calendar.YEAR);
                 hour = currentTime.get(Calendar.HOUR_OF_DAY);
                 minute = currentTime.get(Calendar.MINUTE);
@@ -115,7 +115,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                             taskTime.setText(dayOfMonth + "/" + month + "/" + year);
                         }
-                    }, year, month, day);
+                    }, year, mMonth, day);
                     date.setTitle("Select the date");
                     date.show();
                 }

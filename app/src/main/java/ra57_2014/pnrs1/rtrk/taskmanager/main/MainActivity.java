@@ -37,6 +37,19 @@ public class MainActivity extends AppCompatActivity {
         final ListView list = (ListView) findViewById(R.id.listView);
         list.setAdapter(mAdapter);
 
+        //Dummy elements
+        mAdapter.add(new Task("Dummy one" , "", "25/4/2017" , false , 1));
+        mAdapter.add(new Task("Dummy two" , "", "25/4/2017" , false , 2));
+        mAdapter.add(new Task("Dummy three" , "", "25/4/2017" , false , 3));
+        mAdapter.add(new Task("Dummy 4" , "", "26/4/2017" , false , 1));
+        mAdapter.add(new Task("Dummy 5" , "", "27/4/2017" , false , 2));
+        mAdapter.add(new Task("Dummy 6" , "", "28/4/2017" , false , 3));
+        mAdapter.add(new Task("Dummy 7" , "", "27/4/2017" , false , 1));
+        mAdapter.add(new Task("Dummy 8" , "", "28/4/2017" , false , 2));
+        mAdapter.add(new Task("Dummy 8" , "", "26/4/2017" , false , 3));
+        mAdapter.add(new Task("Dummy 10" , "", "25/4/2017" , false , 1));
+
+
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             Task newListItem = ((Task) extras.get("Task"));
