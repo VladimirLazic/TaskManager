@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,8 +17,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import ra57_2014.pnrs1.rtrk.taskmanager.R;
+import ra57_2014.pnrs1.rtrk.taskmanager.main.MainActivity;
 
 /**
  * Created by ironm on 5/4/2017.
@@ -76,6 +80,7 @@ public class CircleView extends View {
         int displayHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         int displayWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
+
         mPaint.setColor(getContext().getResources().getColor(R.color.colorRed));
         canvas.drawCircle(getWidth()/2, getHeight()/4, RADIUS, mPaint);
 
@@ -121,6 +126,8 @@ public class CircleView extends View {
 
         double[] maxAngles = {angleOfLow , angleOfMedium , angleOfHigh};
         int indexOfMax;
+        int numberOfHigh = 0 , numberOfMedium = 0 , numberOfLow = 0;
+
         @Override
         protected void onPreExecute() {
 
@@ -139,15 +146,15 @@ public class CircleView extends View {
                 while(currentAngles[indexOfMax] <= maxAngles[indexOfMax]) {
                     if (currentAngles[0] <= maxAngles[0]) {
                         currentAngles[0] = currentAngles[0] + 1.00;
-                        percentOfHigh = (int) Math.round(currentAngles[0]/sumTotalOfTasks);
+                        percentOfLow = (int) ( ((float)currentAngles[0]) * (100.00f / 360.00f));
                     }
                     if (currentAngles[1] <= maxAngles[1]) {
                         currentAngles[1] = currentAngles[1] + 1.00;
-                        percentOfMedium = (int) Math.round(currentAngles[1]/sumTotalOfTasks);
+                        percentOfMedium = (int) ( ((float)currentAngles[1]) * (100.00f / 360.00f));
                     }
                     if (currentAngles[2] <= maxAngles[2]) {
                         currentAngles[2] = currentAngles[2] + 1.00;
-                        percentOfLow = (int) Math.round(currentAngles[2]/sumTotalOfTasks);
+                        percentOfHigh = (int) ( ((float)currentAngles[2]) * (100.00f / 360.00f));
                     }
 
                     try {

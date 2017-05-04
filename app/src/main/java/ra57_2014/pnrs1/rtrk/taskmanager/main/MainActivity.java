@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -76,12 +77,15 @@ public class MainActivity extends AppCompatActivity {
                     switch (t.getPriority()) {
                         case 1:
                             numberOfTasks[0]++;
+                            Log.d(TAG, "onClick: Number of LOW tasks: " + Integer.toString(numberOfTasks[0]));
                             break;
                         case 2:
                             numberOfTasks[1]++;
+                            Log.d(TAG, "onClick: Number of MEDIUM tasks: " + Integer.toString(numberOfTasks[1]));
                             break;
                         case 3:
                             numberOfTasks[2]++;
+                            Log.d(TAG, "onClick: Number of HIGH tasks: " + Integer.toString(numberOfTasks[2]));
                             break;
                     }
                 }
