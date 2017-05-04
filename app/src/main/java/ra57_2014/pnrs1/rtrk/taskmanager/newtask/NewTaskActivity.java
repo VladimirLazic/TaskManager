@@ -1,5 +1,6 @@
 package ra57_2014.pnrs1.rtrk.taskmanager.newtask;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,7 +32,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
     Button red, green, yellow, add , cancel;
     NewTaskPresenter presenter;
     int priorityButton = 0;
-    ArrayList<Task> listOfTasks;
+    String TAG = "NewTaskActivityTag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,6 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         setContentView(R.layout.activity_new_task);
 
         presenter = new NewTaskPresenter(this);
-        listOfTasks = new ArrayList<Task>();
 
         initView();
 
@@ -251,7 +252,6 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
                     break;
             }
         }
-
     }
 
     @Override
@@ -261,13 +261,10 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
 
     @Override
     public void updateList(Task t) {
-        listOfTasks.add(t);
-        Toast.makeText(this , "List updated!" , Toast.LENGTH_LONG).show();
-
-        Intent intent = new Intent(NewTaskActivity.this , MainActivity.class);
+        Intent intent = new Intent(getBaseContext() , MainActivity.class);
         intent.putExtra("Task" , t);
-        startActivity(intent);
-        //finish();
+        setResult(Activity.RESULT_OK , intent);
+        finish();
     }
 
     @Override

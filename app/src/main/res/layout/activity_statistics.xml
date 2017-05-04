@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ra57_2014.pnrs1.rtrk.taskmanager.StatisticsActivity">
+    tools:context="ra57_2014.pnrs1.rtrk.taskmanager.statistics.StatisticsActivity">
 
 </android.support.constraint.ConstraintLayout>

@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StatisticsActivity" />
+        <activity android:name=".statistics.StatisticsActivity" />
         <activity android:name=".newtask.NewTaskActivity"
             android:configChanges="orientation|screenSize"/>
     </application>
