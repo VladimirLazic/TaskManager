@@ -23,16 +23,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
         CircleView circleView = new CircleView(getApplicationContext() , numberOfTasks);
         setContentView(circleView);
-
-        Button backButton = (Button) findViewById(R.id.button);
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                setResult(Activity.RESULT_OK , intent);
-            }
-        });
     }
 
 

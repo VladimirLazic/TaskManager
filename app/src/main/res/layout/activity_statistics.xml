@@ -6,18 +6,4 @@
     android:layout_height="match_parent"
     tools:context="ra57_2014.pnrs1.rtrk.taskmanager.statistics.StatisticsActivity">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-    </FrameLayout>
 </android.widget.RelativeLayout>
