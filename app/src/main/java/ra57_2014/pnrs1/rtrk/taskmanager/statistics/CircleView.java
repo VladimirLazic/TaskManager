@@ -18,6 +18,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import ra57_2014.pnrs1.rtrk.taskmanager.R;
 import ra57_2014.pnrs1.rtrk.taskmanager.main.MainActivity;
@@ -80,7 +82,6 @@ public class CircleView extends View {
         int displayHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         int displayWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-
         mPaint.setColor(getContext().getResources().getColor(R.color.colorRed));
         canvas.drawCircle(getWidth()/2, getHeight()/4, RADIUS, mPaint);
 
@@ -122,7 +123,7 @@ public class CircleView extends View {
         canvas.drawText(Integer.toString(percentOfLow) + "%" , getWidth()/4 - 0.20f*RADIUS, getHeight()/2 + displayHeight/10 + 0.1f*RADIUS , mPaint);
     }
 
-    private class AnimationThread extends AsyncTask<Void , Void , Void> {
+    public class AnimationThread extends AsyncTask<Void , Void , Void> {
 
         double[] maxAngles = {angleOfLow , angleOfMedium , angleOfHigh};
         int indexOfMax;
