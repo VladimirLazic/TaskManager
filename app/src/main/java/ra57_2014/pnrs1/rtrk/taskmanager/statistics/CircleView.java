@@ -37,10 +37,13 @@ public class CircleView extends View {
     double[] currentAngles = new double[3];
     int percentOfHigh = 0 , percentOfMedium = 0 , percentOfLow = 0;
     float sumTotalOfTasks;
+    public AnimationThread animationThread;
     String TAG = "CircleView: ";
 
     public CircleView(Context context , int tasks[]) {
         super(context);
+
+
 
         float numberOfHighPriority = tasks[2];
         float numberOfMedioumPrioriy = tasks[1];
@@ -52,18 +55,11 @@ public class CircleView extends View {
         angleOfMedium = 360*(numberOfMedioumPrioriy/sumTotalOfTasks);
         angleOfLow = 360*(numberOfLowPriority/sumTotalOfTasks);
 
+        animationThread = new AnimationThread();
+        animationThread.execute();
         init();
     }
 
-    public CircleView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public CircleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
 
     private void init() {
         mPaint = new Paint();
@@ -72,7 +68,6 @@ public class CircleView extends View {
             angle = 0;
         }
 
-        new AnimationThread().execute();
     }
 
     @Override
@@ -127,7 +122,6 @@ public class CircleView extends View {
 
         double[] maxAngles = {angleOfLow , angleOfMedium , angleOfHigh};
         int indexOfMax;
-        int numberOfHigh = 0 , numberOfMedium = 0 , numberOfLow = 0;
 
         @Override
         protected void onPreExecute() {
