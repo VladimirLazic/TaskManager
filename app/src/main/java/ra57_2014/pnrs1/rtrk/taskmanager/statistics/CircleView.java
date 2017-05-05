@@ -77,21 +77,21 @@ public class CircleView extends View {
         int displayHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         int displayWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        mPaint.setColor(getContext().getResources().getColor(R.color.colorRed));
+        mPaint.setColor(getResources().getColor(R.color.colorBlue));
         canvas.drawCircle(getWidth()/2, getHeight()/4, RADIUS, mPaint);
 
         mPaint.setColor(Color.BLACK);
         mPaint.setTextSize(65);
         canvas.drawText("High priority" , getWidth()/2 - 0.9f*RADIUS, getHeight()/4 + displayHeight/6 , mPaint);
 
-        mPaint.setColor(getContext().getResources().getColor(R.color.colorGreen));
+        mPaint.setColor(getResources().getColor(R.color.colorBlue));
         canvas.drawCircle(getWidth()/4, getHeight()/2 + displayHeight/10, RADIUS, mPaint);
 
         mPaint.setColor(Color.BLACK);
         mPaint.setTextSize(65);
         canvas.drawText("Low priority" , getWidth()/4 - 0.85f*RADIUS, getHeight()/2 + displayHeight/10 + displayHeight/6 , mPaint);
 
-        mPaint.setColor(getContext().getResources().getColor(R.color.colorYellow));
+        mPaint.setColor(getResources().getColor(R.color.colorBlue));
         canvas.drawCircle(getWidth()/4 + displayWidth/2, getHeight()/2 + displayHeight/10, RADIUS, mPaint);
 
         mPaint.setColor(Color.BLACK);
@@ -102,17 +102,17 @@ public class CircleView extends View {
         RectF rektMedium = new RectF(getWidth()/4 + displayWidth/2 - RADIUS , getHeight()/2 + displayHeight/10 - RADIUS , getWidth()/4 + displayWidth/2 + RADIUS , getHeight()/2 + displayHeight/10 + RADIUS);
         RectF rektLow = new RectF(getWidth()/4 - RADIUS , getHeight()/2 + displayHeight/10 - RADIUS , getWidth()/4 + RADIUS , getHeight()/2 + displayHeight/10 + RADIUS);
 
-        mPaint.setColor(getResources().getColor(R.color.colorBlue));
+        mPaint.setColor(getContext().getResources().getColor(R.color.colorRed));
         canvas.drawArc(rektHigh , 0 , (float) currentAngles[2] , true , mPaint);
         mPaint.setColor(Color.BLACK);
         canvas.drawText(Integer.toString(percentOfHigh) + "%" , getWidth()/2 - 0.20f*RADIUS, getHeight()/4 + 0.1f*RADIUS, mPaint);
 
-        mPaint.setColor(getResources().getColor(R.color.colorBlue));
+        mPaint.setColor(getContext().getResources().getColor(R.color.colorYellow));
         canvas.drawArc(rektMedium , 0 , (float) currentAngles[1] , true , mPaint);
         mPaint.setColor(Color.BLACK);
         canvas.drawText(Integer.toString(percentOfMedium) + "%" , getWidth()/4 + displayWidth/2 - 0.20f*RADIUS,  getHeight()/2 + displayHeight/10 + 0.1f*RADIUS ,mPaint);
 
-        mPaint.setColor(getResources().getColor(R.color.colorBlue));
+        mPaint.setColor(getContext().getResources().getColor(R.color.colorGreen));
         canvas.drawArc(rektLow , 0 , (float) currentAngles[0] , true , mPaint);
         mPaint.setColor(Color.BLACK);
         canvas.drawText(Integer.toString(percentOfLow) + "%" , getWidth()/4 - 0.20f*RADIUS, getHeight()/2 + displayHeight/10 + 0.1f*RADIUS , mPaint);

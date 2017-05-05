@@ -42,8 +42,6 @@ public class StatisticsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
 
