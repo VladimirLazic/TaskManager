@@ -20,6 +20,12 @@
         <activity android:name=".statistics.StatisticsActivity" />
         <activity android:name=".newtask.NewTaskActivity"
             android:configChanges="orientation|screenSize"/>
+
+        <service
+            android:name=".main.ReminderService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

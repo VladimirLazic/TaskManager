@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     TaskElementAdapter mAdapter;
     ArrayList<Task>tasks;
     String TAG = "MainActivityTag";
+    ReminderService mReminder = new ReminderService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +44,16 @@ public class MainActivity extends AppCompatActivity {
         tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 3));
         tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
         tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
+        tasks.add(new Task("Dummy" , "" , "22/5/2017 10:10" , true, 2));
 
         mAdapter = new TaskElementAdapter(this , tasks);
 
         final ListView list = (ListView) findViewById(R.id.listView);
         list.setAdapter(mAdapter);
+
+        Intent intent = new Intent(MainActivity.this , ReminderService.class);
+        intent.putExtra("Task" , tasks);
+        bindService(intent , mReminder , BIND_AUTO_CREATE);
 
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
