@@ -1,7 +1,10 @@
 package ra57_2014.pnrs1.rtrk.taskmanager.main;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     TaskElementAdapter mAdapter;
     ArrayList<Task>tasks;
     String TAG = "MainActivityTag";
-    ReminderService mReminder = new ReminderService();
+    ReminderService mReminder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +47,13 @@ public class MainActivity extends AppCompatActivity {
         tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 3));
         tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
         tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy" , "" , "22/5/2017 10:10" , true, 2));
+        tasks.add(new Task("Dummy" , "" , "22/5/2017 17:59" , true, 2));
 
         mAdapter = new TaskElementAdapter(this , tasks);
 
         final ListView list = (ListView) findViewById(R.id.listView);
         list.setAdapter(mAdapter);
 
-        Intent intent = new Intent(MainActivity.this , ReminderService.class);
-        intent.putExtra("Task" , tasks);
-        bindService(intent , mReminder , BIND_AUTO_CREATE);
 
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -108,6 +108,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent , 1);
             }
         });
+
+
+        createReminderService();
+    }
+
+    private void createReminderService() {
+        Intent intent = new Intent(MainActivity.this , ReminderService.class);
+        intent.putExtra("Task" , tasks);
+
+        ServiceConnection mConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                mReminder = ((ReminderService.ReminderBinder) service).getService();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+
+        bindService(intent , mConnection , BIND_AUTO_CREATE);
+        startService(intent);
     }
 
     @Override
@@ -119,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     Bundle extra = data.getExtras();
                     tasks.add((Task) extra.get("Task"));
                     mAdapter.notifyDataSetChanged();
+                    mReminder.updateTasks((Task) extra.get("Task"));
                 }
             }
     }

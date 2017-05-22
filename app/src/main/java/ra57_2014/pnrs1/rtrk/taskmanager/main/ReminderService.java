@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.IInterface;
@@ -30,60 +31,18 @@ import ra57_2014.pnrs1.rtrk.taskmanager.newtask.Task;
  * Created by ironm on 5/21/2017.
  */
 
-public class ReminderService extends Service implements ServiceConnection {
+public class ReminderService extends Service  {
 
     ArrayList<Task> tasks = new ArrayList<>();
     ReminderThread mThread = new ReminderThread();
     private static final String TAG = "ReminderService";
-
-    public  ReminderService() {}
+    IBinder reminderBinder = new ReminderBinder();
     
-    private IBinder mBinder = new IBinder() {
-        @Override
-        public String getInterfaceDescriptor() throws RemoteException {
-            return null;
+    public class ReminderBinder extends Binder {
+        public ReminderService getService() {
+            return ReminderService.this;
         }
-
-        @Override
-        public boolean pingBinder() {
-            return false;
-        }
-
-        @Override
-        public boolean isBinderAlive() {
-            return false;
-        }
-
-        @Override
-        public IInterface queryLocalInterface(String descriptor) {
-            return null;
-        }
-
-        @Override
-        public void dump(FileDescriptor fd, String[] args) throws RemoteException {
-
-        }
-
-        @Override
-        public void dumpAsync(FileDescriptor fd, String[] args) throws RemoteException {
-
-        }
-
-        @Override
-        public boolean transact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
-            return false;
-        }
-
-        @Override
-        public void linkToDeath(DeathRecipient recipient, int flags) throws RemoteException {
-
-        }
-
-        @Override
-        public boolean unlinkToDeath(DeathRecipient recipient, int flags) {
-            return false;
-        }
-    };
+    }
 
     @Override
     public void onCreate() {
@@ -111,19 +70,9 @@ public class ReminderService extends Service implements ServiceConnection {
             Log.d(TAG, "onBind: Tasks empty");
         }
 
-        return mBinder;
+        return reminderBinder;
     }
 
-    @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
-        //mBinder = service;
-        mThread.start();
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-        mThread.stop();
-    }
 
     class ReminderThread extends Thread {
         List<Task> remindOfTheseTasks = new ArrayList<Task>();
@@ -193,7 +142,7 @@ public class ReminderService extends Service implements ServiceConnection {
                             new NotificationCompat.Builder(ReminderService.this)
                                     .setContentTitle("TaskManager")
                                     .setContentText(t.getName())
-                                    .setSmallIcon(R.drawable.notification);
+                                    .setSmallIcon(R.mipmap.ic_launcher);
 
 
                     Intent resultIntent = new Intent(ReminderService.this, MainActivity.class);
@@ -223,6 +172,11 @@ public class ReminderService extends Service implements ServiceConnection {
 
             }
         }
+    }
+
+    public void updateTasks(Task t) {
+        tasks.add(t);
+        Log.d(TAG, "updateTasks: Added new task" + t.toString());
     }
 
 }
