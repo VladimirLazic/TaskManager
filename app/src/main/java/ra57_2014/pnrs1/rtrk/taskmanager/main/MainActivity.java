@@ -38,10 +38,8 @@ public class MainActivity extends AppCompatActivity {
         statistics = (Button) findViewById(R.id.statistics);
         newTask = (Button) findViewById(R.id.newTask);
 
-        tasks = new ArrayList<>();
-
         //Dummy Tasks
-        tasks.add(new Task("Dummy 1" , "" , "5/4/2017 18:12" , false, 3));
+        /*tasks.add(new Task("Dummy 1" , "" , "5/4/2017 18:12" , false, 3));
         tasks.add(new Task("Dummy 2" , "" , "5/4/2017 18:12" , false, 2));
         tasks.add(new Task("Dummy 3" , "" , "5/4/2017 18:12" , false, 1));
         tasks.add(new Task("Dummy 4" , "" , "5/4/2017 18:12" , false, 2));
@@ -49,11 +47,17 @@ public class MainActivity extends AppCompatActivity {
         tasks.add(new Task("Dummy 6" , "" , "5/4/2017 18:12" , false, 3));
         tasks.add(new Task("Dummy 7" , "" , "5/4/2017 18:12" , false, 2));
         tasks.add(new Task("Dummy 8" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy 9" , "" , "22/5/2017 17:59" , true, 2));
+        tasks.add(new Task("Dummy 9" , "" , "22/5/2017 17:59" , true, 2));*/
+
+        mTaskDbHelper = new TaskDbHelper(this);
+
+        if (mTaskDbHelper.readTasks() != null && !mTaskDbHelper.readTasks().isEmpty()) {
+            tasks = new ArrayList<>(mTaskDbHelper.readTasks());
+        } else {
+            tasks = new ArrayList<>();
+        }
 
         mAdapter = new TaskElementAdapter(this , tasks);
-        mTaskDbHelper = new TaskDbHelper(this);
-        mTaskDbHelper.initializeDatabase(tasks);
 
         final ListView list = (ListView) findViewById(R.id.listView);
         list.setAdapter(mAdapter);
@@ -83,24 +87,29 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 for(Task t : tasks) {
+                    Log.d(TAG, "onClick: Task" + t.toString());
+                    Log.d(TAG, "onClick: priority" + t.getPriority());
                     switch (t.getPriority()) {
                         case 1:
                             numberOfTasks[0]++;
                             Log.d(TAG, "onClick: Number of LOW tasks: " + Integer.toString(numberOfTasks[0]));
                             if(t.isDone())
                                 numberOfTasks[1]++;
+                            Log.d(TAG, "onClick: Number of LOW DONE tasks: " + numberOfTasks[1]);
                             break;
                         case 2:
                             numberOfTasks[2]++;
-                            Log.d(TAG, "onClick: Number of MEDIUM tasks: " + Integer.toString(numberOfTasks[1]));
+                            Log.d(TAG, "onClick: Number of MEDIUM tasks: " + Integer.toString(numberOfTasks[2]));
                             if(t.isDone())
                                 numberOfTasks[3]++;
+                            Log.d(TAG, "onClick: Number of MEDIUM DONE tasks: " + numberOfTasks[3]);
                             break;
                         case 3:
                             numberOfTasks[4]++;
-                            Log.d(TAG, "onClick: Number of HIGH tasks: " + Integer.toString(numberOfTasks[2]));
+                            Log.d(TAG, "onClick: Number of HIGH tasks: " + Integer.toString(numberOfTasks[4]));
                             if(t.isDone())
                                 numberOfTasks[5]++;
+                            Log.d(TAG, "onClick: Number of HIGH DONE tasks: " + numberOfTasks[5]);
                             break;
                     }
                 }
@@ -147,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mTaskDbHelper.clearDatabase();
+        //mTaskDbHelper.clearDatabase();
     }
 
     @Override

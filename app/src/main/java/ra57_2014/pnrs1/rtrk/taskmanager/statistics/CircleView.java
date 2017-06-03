@@ -52,9 +52,9 @@ public class CircleView extends View {
 
         sumTotalOfTasks = numberOfHighPriority + numberOfMedioumPrioriy + numberOfLowPriority;
 
-        angleOfHigh = 360*(doneHighPRiority/numberOfHighPriority);
-        angleOfMedium = 360*(doneMediumPriority/numberOfMedioumPrioriy);
-        angleOfLow = 360*(doneLowPriority/numberOfLowPriority);
+        angleOfHigh = (numberOfHighPriority == 0) ? 0.00f : 360*(doneHighPRiority/numberOfHighPriority);
+        angleOfMedium = (numberOfMedioumPrioriy == 0) ? 0.00f : 360*(doneMediumPriority/numberOfMedioumPrioriy);
+        angleOfLow = (numberOfLowPriority == 0) ? 0.00f : 360*(doneLowPriority/numberOfLowPriority);
 
         animationThread = new AnimationThread();
         animationThread.execute();

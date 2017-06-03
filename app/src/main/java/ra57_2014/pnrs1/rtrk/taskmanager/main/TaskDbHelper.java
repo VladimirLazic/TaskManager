@@ -70,11 +70,6 @@ public class TaskDbHelper extends SQLiteOpenHelper {
         for(Task t : tasks) {
             insert(t);
         }
-
-        Log.d(TAG, "initializeDatabase: ");
-        for(Task t : readTasks()) {
-            Log.d(TAG, "initializeDatabase: " + t.toString());
-        }
     }
 
     public ArrayList<Task> readTasks() {
