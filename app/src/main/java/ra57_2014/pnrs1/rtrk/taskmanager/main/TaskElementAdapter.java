@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,8 @@ import ra57_2014.pnrs1.rtrk.taskmanager.newtask.Task;
 
 public class TaskElementAdapter extends ArrayAdapter<Task> {
 
+    ArrayList<Task> tasks;
+
     public TaskElementAdapter(Context context , @NonNull List<Task> objects) {
         super(context, R.layout.task_element, objects);
     }
@@ -41,7 +44,7 @@ public class TaskElementAdapter extends ArrayAdapter<Task> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View elementView = inflater.inflate(R.layout.task_element , parent , false);
 
-        Task currentElement = getItem(position);
+        final Task currentElement = getItem(position);
 
         final TextView elementName = (TextView) elementView.findViewById(R.id.elementName);
         elementName.setText(currentElement.getName());
@@ -65,8 +68,10 @@ public class TaskElementAdapter extends ArrayAdapter<Task> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(taskEnd.isChecked()) {
                     elementName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    currentElement.setDone(true);
                 } else {
                     elementName.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
+                    currentElement.setDone(false);
                 }
             }
         });

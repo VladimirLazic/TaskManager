@@ -32,6 +32,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
     Button red, green, yellow, add , cancel;
     NewTaskPresenter presenter;
     int priorityButton = 0;
+    Task t;
     String TAG = "NewTaskActivityTag";
 
     @Override
@@ -166,8 +167,16 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
                             taskTime.getText().toString(),
                             reminder.isChecked(),
                             priorityButton);
+
+                    Log.d(TAG, "onClick: Adding new task");
                 } else {
-                    goToMain();
+                    presenter.addTask(taskName.getText().toString(),
+                            taskDescription.getText().toString(),
+                            taskTime.getText().toString(),
+                            reminder.isChecked(),
+                            priorityButton);
+
+                    Log.d(TAG, "onClick: Saving task");
                 }
             }
         });
@@ -175,18 +184,23 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                priorityButton = 0;
+                if(cancel.getText().equals(getResources().getString(R.string.cancel))) {
+                    priorityButton = 0;
 
-                taskName.getText().clear();
-                taskDescription.getText().clear();
-                taskTime.getText().clear();
-                reminder.setChecked(false);
+                    taskName.getText().clear();
+                    taskDescription.getText().clear();
+                    taskTime.getText().clear();
+                    reminder.setChecked(false);
 
-                add.setEnabled(false);
+                    add.setEnabled(false);
 
-                red.setEnabled(true);
-                yellow.setEnabled(true);
-                green.setEnabled(true);
+                    red.setEnabled(true);
+                    yellow.setEnabled(true);
+                    green.setEnabled(true);
+                } else {
+                    Log.d(TAG, "onClick: Deleting task from database");
+                    deleteTask(t);
+                }
             }
         });
 
@@ -197,7 +211,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(NewTaskActivity.this , MainActivity.class);
-        startActivity(intent);
+        setResult(Activity.RESULT_FIRST_USER , intent);
     }
 
     private void initView() {
@@ -220,10 +234,12 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
 
         if(add.getText().equals(getResources().getString((R.string.add)))) {
             add.setEnabled(false);
+        } else {
+            add.setEnabled(true);
         }
 
         if(extras.get("Task") != null) {
-            Task t = ((Task) extras.get("Task"));
+            t = ((Task) extras.get("Task"));
             taskName.setText(t.getName());
             taskTime.setText(t.getTime());
             taskDescription.setText(t.getDescription());
@@ -264,6 +280,7 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         Intent intent = new Intent(getBaseContext() , MainActivity.class);
         intent.putExtra("Task" , t);
         setResult(Activity.RESULT_OK , intent);
+
         finish();
     }
 
@@ -273,4 +290,15 @@ public class NewTaskActivity extends AppCompatActivity implements NewTaskModel.V
         startActivity(intent);
         //finish();
     }
+
+    @Override
+    public void deleteTask(Task t) {
+        Intent intent = new Intent(getBaseContext() , MainActivity.class);
+        intent.putExtra("Task" , t);
+        setResult(Activity.RESULT_CANCELED , intent);
+
+        finish();
+    }
+
+
 }

@@ -43,17 +43,18 @@ public class CircleView extends View {
     public CircleView(Context context , int tasks[]) {
         super(context);
 
-
-
-        float numberOfHighPriority = tasks[2];
-        float numberOfMedioumPrioriy = tasks[1];
+        float doneHighPRiority = tasks[5];
+        float numberOfHighPriority = tasks[4];
+        float doneMediumPriority = tasks[3];
+        float numberOfMedioumPrioriy = tasks[2];
+        float doneLowPriority = tasks[1];
         float numberOfLowPriority = tasks[0];
 
         sumTotalOfTasks = numberOfHighPriority + numberOfMedioumPrioriy + numberOfLowPriority;
 
-        angleOfHigh = 360*(numberOfHighPriority/sumTotalOfTasks);
-        angleOfMedium = 360*(numberOfMedioumPrioriy/sumTotalOfTasks);
-        angleOfLow = 360*(numberOfLowPriority/sumTotalOfTasks);
+        angleOfHigh = 360*(doneHighPRiority/numberOfHighPriority);
+        angleOfMedium = 360*(doneMediumPriority/numberOfMedioumPrioriy);
+        angleOfLow = 360*(doneLowPriority/numberOfLowPriority);
 
         animationThread = new AnimationThread();
         animationThread.execute();

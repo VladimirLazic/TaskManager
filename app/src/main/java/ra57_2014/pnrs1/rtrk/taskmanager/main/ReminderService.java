@@ -54,7 +54,7 @@ public class ReminderService extends Service  {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mThread.stop();
+        mThread.interrupt();
     }
 
     @Override
@@ -86,6 +86,7 @@ public class ReminderService extends Service  {
         public synchronized void start() {
             super.start();
         }
+
 
         @Override
         public void run() {
@@ -176,7 +177,14 @@ public class ReminderService extends Service  {
 
     public void updateTasks(Task t) {
         tasks.add(t);
+        //mThread.start();
         Log.d(TAG, "updateTasks: Added new task" + t.toString());
+    }
+
+    public void updateAllTasks(ArrayList<Task> newTasks) {
+        tasks = new ArrayList<Task>(newTasks);
+        //mThread.start();
+        Log.d(TAG, "updateAllTasks: updated all tasks");
     }
 
 }

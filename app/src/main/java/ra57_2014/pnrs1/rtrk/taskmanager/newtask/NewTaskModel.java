@@ -10,6 +10,7 @@ public class NewTaskModel {
         void showMessage(String message);
         void updateList(Task t);
         void goToMain();
+        void deleteTask(Task t);
     }
 
     interface Presenter {

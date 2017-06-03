@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivityTag";
     ReminderService mReminder;
 
+    TaskDbHelper mTaskDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,17 +41,19 @@ public class MainActivity extends AppCompatActivity {
         tasks = new ArrayList<>();
 
         //Dummy Tasks
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 3));
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 1));
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 1));
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 3));
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy" , "" , "22/5/2017 17:59" , true, 2));
+        tasks.add(new Task("Dummy 1" , "" , "5/4/2017 18:12" , false, 3));
+        tasks.add(new Task("Dummy 2" , "" , "5/4/2017 18:12" , false, 2));
+        tasks.add(new Task("Dummy 3" , "" , "5/4/2017 18:12" , false, 1));
+        tasks.add(new Task("Dummy 4" , "" , "5/4/2017 18:12" , false, 2));
+        tasks.add(new Task("Dummy 5" , "" , "5/4/2017 18:12" , false, 1));
+        tasks.add(new Task("Dummy 6" , "" , "5/4/2017 18:12" , false, 3));
+        tasks.add(new Task("Dummy 7" , "" , "5/4/2017 18:12" , false, 2));
+        tasks.add(new Task("Dummy 8" , "" , "5/4/2017 18:12" , false, 2));
+        tasks.add(new Task("Dummy 9" , "" , "22/5/2017 17:59" , true, 2));
 
         mAdapter = new TaskElementAdapter(this , tasks);
+        mTaskDbHelper = new TaskDbHelper(this);
+        mTaskDbHelper.initializeDatabase(tasks);
 
         final ListView list = (ListView) findViewById(R.id.listView);
         list.setAdapter(mAdapter);
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("Left" , getResources().getString(R.string.save));
                 intent.putExtra("Right" , getResources().getString(R.string.delete));
                 intent.putExtra("Task" , t);
-                startActivity(intent);
+                startActivityForResult(intent , 2);
                 return true;
             }
         });
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this , StatisticsActivity.class);
-                int[] numberOfTasks = new int[3];
+                int[] numberOfTasks = new int[6];
 
                 for(int i : numberOfTasks) {
                     i = 0;
@@ -83,14 +87,20 @@ public class MainActivity extends AppCompatActivity {
                         case 1:
                             numberOfTasks[0]++;
                             Log.d(TAG, "onClick: Number of LOW tasks: " + Integer.toString(numberOfTasks[0]));
+                            if(t.isDone())
+                                numberOfTasks[1]++;
                             break;
                         case 2:
-                            numberOfTasks[1]++;
+                            numberOfTasks[2]++;
                             Log.d(TAG, "onClick: Number of MEDIUM tasks: " + Integer.toString(numberOfTasks[1]));
+                            if(t.isDone())
+                                numberOfTasks[3]++;
                             break;
                         case 3:
-                            numberOfTasks[2]++;
+                            numberOfTasks[4]++;
                             Log.d(TAG, "onClick: Number of HIGH tasks: " + Integer.toString(numberOfTasks[2]));
+                            if(t.isDone())
+                                numberOfTasks[5]++;
                             break;
                     }
                 }
@@ -113,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         createReminderService();
     }
 
+
     private void createReminderService() {
         Intent intent = new Intent(MainActivity.this , ReminderService.class);
         intent.putExtra("Task" , tasks);
@@ -134,15 +145,69 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTaskDbHelper.clearDatabase();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1)
             if(resultCode == Activity.RESULT_OK){
                 if(data != null) {
+                    Log.d(TAG, "onActivityResult: Result code : 1 , RESULT_OK");
                     Bundle extra = data.getExtras();
-                    tasks.add((Task) extra.get("Task"));
+                    Task t = (Task) extra.get("Task");
+                    tasks.add(t);
                     mAdapter.notifyDataSetChanged();
-                    mReminder.updateTasks((Task) extra.get("Task"));
+
+
+                    mTaskDbHelper.insert(t);
+                    mReminder.updateTasks(t);
+                }
+            }
+
+        if (requestCode == 2)
+            if (resultCode == Activity.RESULT_OK) {
+                if(data != null) {
+                    Log.d(TAG, "onActivityResult: Result code : 2 , RESULT_OK");
+                    Bundle extra = data.getExtras();
+                    Task t = (Task) extra.get("Task");
+
+                    mTaskDbHelper.deleteTask(t.getName());
+                    mTaskDbHelper.insert(t);
+
+                    Log.d(TAG, "onActivityResult: Updating tasks");
+                    tasks.clear();
+                    for(Task temp : mTaskDbHelper.readTasks()) {
+                        tasks.add(temp);
+                    }
+                    mReminder.updateAllTasks(tasks);
+
+                    Log.d(TAG, "onActivityResult: Notifing adapter");
+                    mAdapter.notifyDataSetChanged();
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                if (data != null) {
+                    Log.d(TAG, "onActivityResult: Result code : 2 , RESULT_CANCELED");
+                    Bundle extra = data.getExtras();
+                    Task t = (Task) extra.get("Task");
+
+                    mTaskDbHelper.deleteTask(t.getName());
+
+                    Log.d(TAG, "onActivityResult: Updating tasks");
+                    tasks.clear();
+                    for(Task temp : mTaskDbHelper.readTasks()) {
+                        Log.d(TAG, "onActivityResult: " + temp.toString());
+                        tasks.add(temp);
+                    }
+
+
+                    mReminder.updateAllTasks(tasks);
+
+                    Log.d(TAG, "onActivityResult: Notifing adapter");
+                    mAdapter.notifyDataSetChanged();
                 }
             }
     }

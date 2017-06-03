@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class Task implements Serializable {
     String name , description , time;
-    boolean reminder;               //true - remind me , false - dont
+    boolean reminder , done;               //true - remind me , false - dont
     int priority;                   //3 - red , 2 - yellow , 1 - green
 
     public Task(String name , String description , String time ,boolean reminder , int priority) {
@@ -17,6 +17,15 @@ public class Task implements Serializable {
         this.time = time;
         this.reminder = reminder;
         this.priority = priority;
+        this.done = false;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 
     public void setTime(String time) {
