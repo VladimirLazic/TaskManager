@@ -108,26 +108,29 @@ public class ReminderService extends Service  {
                     Date taskDate = new Date();
                     String taskTime = t.getTime();
                     String dateAndTime[] = taskTime.split(" ");
-                    String justTheDate[] = dateAndTime[0].split("/");
-                    String hourAndMin[] = dateAndTime[1].split(":");
 
-                    int hour = Integer.parseInt(hourAndMin[0]);
-                    int minute = Integer.parseInt(hourAndMin[1]);
+                    if (dateAndTime.length == 2) {
+                        String justTheDate[] = dateAndTime[0].split("/");
+                        String hourAndMin[] = dateAndTime[1].split(":");
 
-                    try {
-                        taskDate = simpleDateFormat.parse(justTheDate[0]+"/"+justTheDate[1]+"/"+justTheDate[2]);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                        int hour = Integer.parseInt(hourAndMin[0]);
+                        int minute = Integer.parseInt(hourAndMin[1]);
 
-                    if(taskDate.getYear() == currentDate.getYear()) {
-                        if(taskDate.getMonth() == currentDate.getMonth()) {
-                            if(taskDate.getDay() == currentDate.getDay()) {
-                                if(hour == currentDate.getHours()) {
-                                    if(minute - currentDate.getMinutes() <= 15) {
-                                        if(t.isReminder()) {
-                                            remindOfTheseTasks.add(t);
-                                            t.setReminder(false);
+                        try {
+                            taskDate = simpleDateFormat.parse(justTheDate[0] + "/" + justTheDate[1] + "/" + justTheDate[2]);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (taskDate.getYear() == currentDate.getYear()) {
+                            if (taskDate.getMonth() == currentDate.getMonth()) {
+                                if (taskDate.getDay() == currentDate.getDay()) {
+                                    if (hour == currentDate.getHours()) {
+                                        if (minute - currentDate.getMinutes() <= 15) {
+                                            if (t.isReminder()) {
+                                                remindOfTheseTasks.add(t);
+                                                t.setReminder(false);
+                                            }
                                         }
                                     }
                                 }

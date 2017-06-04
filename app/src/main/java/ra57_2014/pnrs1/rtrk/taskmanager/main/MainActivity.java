@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Task>tasks;
     String TAG = "MainActivityTag";
     ReminderService mReminder;
+    ServiceConnection mConnection;
 
     TaskDbHelper mTaskDbHelper;
 
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this , ReminderService.class);
         intent.putExtra("Task" , tasks);
 
-        ServiceConnection mConnection = new ServiceConnection() {
+        mConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mReminder = ((ReminderService.ReminderBinder) service).getService();
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         //mTaskDbHelper.clearDatabase();
+        unbindService(mConnection);
     }
 
     @Override
