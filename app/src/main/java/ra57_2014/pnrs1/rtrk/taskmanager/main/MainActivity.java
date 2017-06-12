@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //mTaskDbHelper.clearDatabase();
+        mTaskDbHelper.clearDatabase();
         unbindService(mConnection);
     }
 
