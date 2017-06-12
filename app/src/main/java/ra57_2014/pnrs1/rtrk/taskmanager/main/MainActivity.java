@@ -39,17 +39,6 @@ public class MainActivity extends AppCompatActivity {
         statistics = (Button) findViewById(R.id.statistics);
         newTask = (Button) findViewById(R.id.newTask);
 
-        //Dummy Tasks
-        /*tasks.add(new Task("Dummy 1" , "" , "5/4/2017 18:12" , false, 3));
-        tasks.add(new Task("Dummy 2" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy 3" , "" , "5/4/2017 18:12" , false, 1));
-        tasks.add(new Task("Dummy 4" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy 5" , "" , "5/4/2017 18:12" , false, 1));
-        tasks.add(new Task("Dummy 6" , "" , "5/4/2017 18:12" , false, 3));
-        tasks.add(new Task("Dummy 7" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy 8" , "" , "5/4/2017 18:12" , false, 2));
-        tasks.add(new Task("Dummy 9" , "" , "22/5/2017 17:59" , true, 2));*/
-
         mTaskDbHelper = new TaskDbHelper(this);
 
         if (mTaskDbHelper.readTasks() != null && !mTaskDbHelper.readTasks().isEmpty()) {
