@@ -29,7 +29,7 @@ import ra57_2014.pnrs1.rtrk.taskmanager.main.MainActivity;
  */
 
 public class CircleView extends View {
-
+    NativeCalculation nativeCalc;
     private static final float RADIUS = 200.0f;
 
     private Paint mPaint = null;
@@ -42,7 +42,7 @@ public class CircleView extends View {
 
     public CircleView(Context context , int tasks[]) {
         super(context);
-
+        nativeCalc = new NativeCalculation();
         float doneHighPRiority = tasks[5];
         float numberOfHighPriority = tasks[4];
         float doneMediumPriority = tasks[3];
@@ -51,10 +51,9 @@ public class CircleView extends View {
         float numberOfLowPriority = tasks[0];
 
         sumTotalOfTasks = numberOfHighPriority + numberOfMedioumPrioriy + numberOfLowPriority;
-
-        angleOfHigh = (numberOfHighPriority == 0) ? 0.00f : 360*(doneHighPRiority/numberOfHighPriority);
-        angleOfMedium = (numberOfMedioumPrioriy == 0) ? 0.00f : 360*(doneMediumPriority/numberOfMedioumPrioriy);
-        angleOfLow = (numberOfLowPriority == 0) ? 0.00f : 360*(doneLowPriority/numberOfLowPriority);
+        angleOfHigh = nativeCalc.calculateAngleOfAnimation((int)numberOfHighPriority,(int)doneHighPRiority);
+        angleOfMedium = nativeCalc.calculateAngleOfAnimation((int)numberOfMedioumPrioriy,(int)doneMediumPriority);
+        angleOfLow = nativeCalc.calculateAngleOfAnimation((int)numberOfLowPriority,(int)doneLowPriority);
 
         animationThread = new AnimationThread();
         animationThread.execute();

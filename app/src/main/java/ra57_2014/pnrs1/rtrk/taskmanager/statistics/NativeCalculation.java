@@ -6,4 +6,8 @@ package ra57_2014.pnrs1.rtrk.taskmanager.statistics;
 
 public class NativeCalculation {
     public native float calculateAngleOfAnimation(int doneTasks , int totalTasks);
+        static
+        {
+            System.loadLibrary("libcalculatestats");
+        }
 }

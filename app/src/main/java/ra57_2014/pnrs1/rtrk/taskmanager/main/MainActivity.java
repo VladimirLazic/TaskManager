@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         newTask = (Button) findViewById(R.id.newTask);
 
         mTaskDbHelper = new TaskDbHelper(this);
-
+        //mTaskDbHelper.clearDatabase();
         if (mTaskDbHelper.readTasks() != null && !mTaskDbHelper.readTasks().isEmpty()) {
             tasks = new ArrayList<>(mTaskDbHelper.readTasks());
         } else {
