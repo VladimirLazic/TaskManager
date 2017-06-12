@@ -8,6 +8,6 @@ public class NativeCalculation {
     public native float calculateAngleOfAnimation(int doneTasks , int totalTasks);
         static
         {
-            System.loadLibrary("libcalculatestats");
+            System.loadLibrary("calculatestats");
         }
 }
